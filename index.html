@@ -68,6 +68,11 @@
       background: #1d4ed8;
     }
 
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
     .row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -110,6 +115,18 @@
       font-weight: bold;
     }
 
+    .status-line {
+      margin-top: 12px;
+      color: #475569;
+      font-size: 14px;
+    }
+
+    .yes-no {
+      font-size: 28px;
+      font-weight: bold;
+      color: #0f172a;
+    }
+
     pre {
       white-space: pre-wrap;
       word-break: break-word;
@@ -120,10 +137,212 @@
       overflow-x: auto;
     }
 
+    .batch-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .batch-summary-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .batch-summary-label {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
+    .batch-summary-value {
+      font-size: 28px;
+      font-weight: bold;
+      color: #0f172a;
+    }
+
+    .batch-cards {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .batch-card {
+      border: 1px solid #dbe3ef;
+      border-radius: 16px;
+      padding: 18px;
+      background: #fbfdff;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .batch-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .batch-card-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 0;
+      color: #0f172a;
+    }
+
+    .batch-card-subtitle {
+      color: #64748b;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .batch-pill-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .batch-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: bold;
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .pill-submitted {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .pill-review {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .pill-approved {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .pill-saving {
+      background: #e0f2fe;
+      color: #075985;
+    }
+
+    .batch-section-title {
+      font-weight: bold;
+      margin: 14px 0 6px;
+      color: #1e293b;
+    }
+
+    .batch-answer-box,
+    .batch-question-box,
+    .batch-feedback-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px;
+      color: #334155;
+    }
+
+    .batch-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .batch-metric {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .batch-metric-label {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
+    .batch-metric-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0f172a;
+    }
+
+    .batch-edit-grid {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 12px;
+      margin-top: 14px;
+      align-items: start;
+    }
+
+    .batch-edit-grid textarea {
+      min-height: 90px;
+    }
+
+    .batch-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .batch-action-btn {
+      width: auto;
+      padding: 10px 14px;
+      margin-top: 0;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .btn-secondary {
+      background: #475569;
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+    }
+
+    .btn-success {
+      background: #15803d;
+    }
+
+    .btn-success:hover {
+      background: #166534;
+    }
+
+    .batch-local-status {
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #475569;
+    }
+
+    .batch-raw-wrapper {
+      margin-top: 16px;
+    }
+
     @media (max-width: 800px) {
       .row,
-      .result-grid {
+      .result-grid,
+      .batch-summary,
+      .batch-metrics,
+      .batch-edit-grid {
         grid-template-columns: 1fr;
+      }
+
+      .batch-card-header {
+        flex-direction: column;
       }
     }
   </style>
@@ -198,14 +417,127 @@
       <h3 style="margin-top:20px;">Ruwe output</h3>
       <pre id="openaiOutput">Nog niet getest.</pre>
     </div>
+
+    <div class="card">
+      <h2>4. Test open antwoord nakijken via nieuw endpoint</h2>
+      <p class="muted">
+        Dit onderdeel gebruikt direct het nieuwe backend-endpoint op poort 3001. Dit is bedoeld voor lokale test op dezelfde machine als de grader-backend.
+      </p>
+
+      <label for="gradingDirectBase">Directe grading backend-URL</label>
+      <input id="gradingDirectBase" type="text" />
+
+      <div class="row">
+        <div>
+          <label for="gradingQuestion">Vraag</label>
+          <textarea id="gradingQuestion">Leg uit waarom een propeller guard belangrijk kan zijn bij een trainingsdrone.</textarea>
+        </div>
+        <div>
+          <label for="gradingAnswer">Studentantwoord</label>
+          <textarea id="gradingAnswer">Omdat het veiliger is voor beginners en je minder snel schade maakt.</textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="gradingMaxPoints">Max punten</label>
+          <input id="gradingMaxPoints" type="number" min="1" step="1" value="4" />
+        </div>
+        <div>
+          <label for="gradingTopic">Onderwerp</label>
+          <input id="gradingTopic" type="text" value="drone-techniek" />
+        </div>
+      </div>
+
+      <label for="gradingContext">Extra context</label>
+      <textarea id="gradingContext">Dit is een toets voor mbo-studenten over veiligheid en add-ons.</textarea>
+
+      <button id="gradingRunButton" type="button" onclick="testOpenAnswerGrading()">Nakijken via nieuw endpoint</button>
+      <div id="gradingStatus" class="status-line">Nog niet getest.</div>
+
+      <div class="result-grid">
+        <div class="result-box">
+          <h3>Score</h3>
+          <div id="gradingScoreValue" class="score">-</div>
+        </div>
+        <div class="result-box">
+          <h3>Beoordelingsreden</h3>
+          <div id="gradingReasonValue">Nog geen beoordeling.</div>
+        </div>
+        <div class="result-box">
+          <h3>Confidence</h3>
+          <div id="gradingConfidenceValue" class="confidence">-</div>
+        </div>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-box">
+          <h3>Docentcheck</h3>
+          <div id="gradingTeacherReviewValue" class="yes-no">-</div>
+        </div>
+        <div class="result-box">
+          <h3>Feedback voor student</h3>
+          <div id="gradingFeedbackValue">Nog geen feedback.</div>
+        </div>
+        <div class="result-box">
+          <h3>Model</h3>
+          <div id="gradingModelValue">-</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:20px;">Ruwe output</h3>
+      <pre id="gradingOutput">Nog niet getest.</pre>
+    </div>
+
+    <div class="card">
+      <h2>5. Batch nakijken</h2>
+      <p class="muted">
+        Start handmatig het nakijken van alle ingezonden antwoorden voor een assignment. Deze test gebruikt direct het backend-endpoint op poort 3001.
+      </p>
+
+      <div class="row">
+        <div>
+          <label for="batchClassId">Class ID</label>
+          <input id="batchClassId" type="text" value="test-class" />
+        </div>
+        <div>
+          <label for="batchAssignmentId">Assignment ID</label>
+          <input id="batchAssignmentId" type="text" value="test-assignment" />
+        </div>
+      </div>
+
+      <button id="batchRunButton" type="button" onclick="startBatchGrading()">
+        Start nakijken van alle inzendingen
+      </button>
+
+      <div id="batchStatus" class="status-line">Nog niet gestart.</div>
+
+      <div id="batchSummary" class="batch-summary" style="display:none;"></div>
+      <div id="batchCards" class="batch-cards"></div>
+
+      <div class="batch-raw-wrapper">
+        <h3>Ruwe output</h3>
+        <pre id="batchOutput">Nog niet gestart.</pre>
+      </div>
+    </div>
   </div>
 
   <script>
     const LOCAL_API_BASE = "http://127.0.0.1:3002/grader";
     const PUBLIC_API_BASE = "https://christiane-turfy-guiltily.ngrok-free.dev/grader";
+    const LOCAL_DIRECT_GRADING_BASE = "http://127.0.0.1:3001";
 
     function normalizeApiBase(value) {
       return value.replace(/\/+$/, "");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
     function getDefaultApiBase() {
@@ -219,10 +551,19 @@
       return PUBLIC_API_BASE;
     }
 
+    function getDefaultDirectGradingBase() {
+      return LOCAL_DIRECT_GRADING_BASE;
+    }
+
     document.getElementById("apiBase").value = getDefaultApiBase();
+    document.getElementById("gradingDirectBase").value = getDefaultDirectGradingBase();
 
     function getApiBase() {
       return normalizeApiBase(document.getElementById("apiBase").value.trim());
+    }
+
+    function getDirectGradingBase() {
+      return normalizeApiBase(document.getElementById("gradingDirectBase").value.trim());
     }
 
     function getHeaders() {
@@ -266,6 +607,42 @@
       const response = await fetch(`${getApiBase()}${endpointPath}`, {
         method: "POST",
         headers: getHeaders(),
+        body: JSON.stringify(payload)
+      });
+
+      return readJsonOrThrow(response);
+    }
+
+    async function postDirectGrading(payload) {
+      const response = await fetch(`${getDirectGradingBase()}/grading/grade-open-answer`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      return readJsonOrThrow(response);
+    }
+
+    async function postDirectBatch(payload) {
+      const response = await fetch(`${getDirectGradingBase()}/grading/start-batch`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      return readJsonOrThrow(response);
+    }
+
+    async function postDirectReviewSave(payload) {
+      const response = await fetch(`${getDirectGradingBase()}/grading/review/save`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify(payload)
       });
 
@@ -356,6 +733,336 @@
       } catch (error) {
         output.textContent = `Fout: ${error.message}`;
         feedbackValue.textContent = "Er ging iets mis.";
+      }
+    }
+
+    async function testOpenAnswerGrading() {
+      const question = document.getElementById("gradingQuestion").value.trim();
+      const answer = document.getElementById("gradingAnswer").value.trim();
+      const maxPoints = Number(document.getElementById("gradingMaxPoints").value);
+      const topic = document.getElementById("gradingTopic").value.trim();
+      const extraContext = document.getElementById("gradingContext").value.trim();
+
+      const output = document.getElementById("gradingOutput");
+      const status = document.getElementById("gradingStatus");
+      const runButton = document.getElementById("gradingRunButton");
+
+      const scoreValue = document.getElementById("gradingScoreValue");
+      const reasonValue = document.getElementById("gradingReasonValue");
+      const confidenceValue = document.getElementById("gradingConfidenceValue");
+      const teacherReviewValue = document.getElementById("gradingTeacherReviewValue");
+      const feedbackValue = document.getElementById("gradingFeedbackValue");
+      const modelValue = document.getElementById("gradingModelValue");
+
+      if (!question || !answer || !maxPoints) {
+        status.innerHTML = `<span class="error">Vul vraag, antwoord en max punten in.</span>`;
+        return;
+      }
+
+      runButton.disabled = true;
+      status.textContent = "Open antwoord wordt nagekeken...";
+      output.textContent = "Bezig...";
+
+      scoreValue.textContent = "-";
+      reasonValue.textContent = "Bezig met beoordelen...";
+      confidenceValue.textContent = "-";
+      teacherReviewValue.textContent = "-";
+      feedbackValue.textContent = "Nog geen feedback.";
+      modelValue.textContent = "-";
+
+      try {
+        const data = await postDirectGrading({
+          question,
+          answer,
+          maxPoints,
+          topic,
+          extraContext
+        });
+
+        output.textContent = JSON.stringify(data, null, 2);
+        scoreValue.textContent = `${data.score} / ${data.max_score}`;
+        reasonValue.textContent = data.reason || "Geen reden ontvangen.";
+        confidenceValue.textContent = data.confidence ?? "-";
+        teacherReviewValue.textContent = data.teacher_review_required ? "Ja" : "Nee";
+        feedbackValue.textContent = data.student_feedback || "Geen feedback ontvangen.";
+        modelValue.textContent = data.model || "-";
+        status.innerHTML = `<span class="ok">Beoordelingsvoorstel ontvangen.</span>`;
+      } catch (error) {
+        output.textContent = `Fout: ${error.message}`;
+        reasonValue.textContent = "Er ging iets mis.";
+        feedbackValue.textContent = "Geen feedback ontvangen.";
+        status.innerHTML = `<span class="error">Nakijken mislukt.</span>`;
+      } finally {
+        runButton.disabled = false;
+      }
+    }
+
+    function renderBatchSummary(data) {
+      const summary = document.getElementById("batchSummary");
+
+      summary.innerHTML = `
+        <div class="batch-summary-box">
+          <div class="batch-summary-label">Gevonden</div>
+          <div class="batch-summary-value">${escapeHtml(data.total_found ?? 0)}</div>
+        </div>
+        <div class="batch-summary-box">
+          <div class="batch-summary-label">Ingeleverd</div>
+          <div class="batch-summary-value">${escapeHtml(data.total_submitted ?? 0)}</div>
+        </div>
+        <div class="batch-summary-box">
+          <div class="batch-summary-label">Nagekeken</div>
+          <div class="batch-summary-value">${escapeHtml(data.total_graded ?? 0)}</div>
+        </div>
+        <div class="batch-summary-box">
+          <div class="batch-summary-label">Assignment</div>
+          <div class="batch-summary-value" style="font-size:18px;">${escapeHtml(data.assignmentId ?? "-")}</div>
+        </div>
+      `;
+
+      summary.style.display = "grid";
+    }
+
+    async function saveReviewFromCard({
+      submissionId,
+      classId,
+      assignmentId,
+      studentName,
+      studentEmail,
+      question,
+      answer,
+      aiScore,
+      aiMaxScore,
+      aiReason,
+      aiFeedback,
+      aiConfidence,
+      finalScore,
+      finalFeedback,
+      localStatus,
+      approvedPill,
+      approveBtn
+    }) {
+      approveBtn.disabled = true;
+      approvedPill.textContent = "Opslaan...";
+      approvedPill.classList.add("pill-saving");
+      localStatus.textContent = "Review wordt opgeslagen...";
+
+      try {
+        const data = await postDirectReviewSave({
+          submissionId,
+          classId,
+          assignmentId,
+          studentName,
+          studentEmail,
+          question,
+          answer,
+          aiScore,
+          aiMaxScore,
+          aiReason,
+          aiFeedback,
+          aiConfidence,
+          finalScore,
+          finalFeedback,
+          teacherApproved: true,
+          reviewStatus: "approved"
+        });
+
+        approvedPill.textContent = "Goedgekeurd";
+        approvedPill.classList.remove("pill-saving");
+        approvedPill.classList.add("pill-approved");
+        localStatus.innerHTML = `<span class="ok">Opgeslagen in database. Definitieve score: ${escapeHtml(finalScore)} / ${escapeHtml(aiMaxScore)}</span>`;
+
+        return data;
+      } catch (error) {
+        approvedPill.textContent = "Concept";
+        approvedPill.classList.remove("pill-saving");
+        localStatus.innerHTML = `<span class="error">Opslaan mislukt: ${escapeHtml(error.message)}</span>`;
+        throw error;
+      } finally {
+        approveBtn.disabled = false;
+      }
+    }
+
+    function createBatchCard(resultItem, index, batchMeta) {
+      const card = document.createElement("div");
+      card.className = "batch-card";
+
+      const result = resultItem.result || {};
+      const initialFeedback = result.student_feedback || "";
+      const initialScore = `${result.score ?? 0}`;
+      const needsReview = result.teacher_review_required ? "Ja" : "Nee";
+
+      card.innerHTML = `
+        <div class="batch-card-header">
+          <div>
+            <h3 class="batch-card-title">${escapeHtml(resultItem.studentName || `Student ${index + 1}`)}</h3>
+            <div class="batch-card-subtitle">
+              ${escapeHtml(resultItem.studentEmail || "-")} · ${escapeHtml(resultItem.submissionId || "-")}
+            </div>
+          </div>
+          <div class="batch-pill-group">
+            <span class="batch-pill pill-submitted">${escapeHtml(resultItem.status || "-")}</span>
+            <span class="batch-pill pill-review">${needsReview === "Ja" ? "Docentcheck nodig" : "AI zeker genoeg"}</span>
+            <span class="batch-pill" data-approved-pill>Concept</span>
+          </div>
+        </div>
+
+        <div class="batch-section-title">Vraag</div>
+        <div class="batch-question-box">${escapeHtml(resultItem.question || "-")}</div>
+
+        <div class="batch-section-title">Studentantwoord</div>
+        <div class="batch-answer-box">${escapeHtml(resultItem.answer || "-")}</div>
+
+        <div class="batch-metrics">
+          <div class="batch-metric">
+            <div class="batch-metric-label">AI-score</div>
+            <div class="batch-metric-value">${escapeHtml(result.score ?? "-")} / ${escapeHtml(result.max_score ?? "-")}</div>
+          </div>
+          <div class="batch-metric">
+            <div class="batch-metric-label">Confidence</div>
+            <div class="batch-metric-value">${escapeHtml(result.confidence ?? "-")}</div>
+          </div>
+          <div class="batch-metric">
+            <div class="batch-metric-label">Docentcheck</div>
+            <div class="batch-metric-value">${escapeHtml(needsReview)}</div>
+          </div>
+          <div class="batch-metric">
+            <div class="batch-metric-label">Model</div>
+            <div class="batch-metric-value" style="font-size:18px;">${escapeHtml(result.model ?? "-")}</div>
+          </div>
+        </div>
+
+        <div class="batch-section-title">AI-reden</div>
+        <div class="batch-feedback-box">${escapeHtml(result.reason || "Geen reden ontvangen.")}</div>
+
+        <div class="batch-section-title">AI-feedback voor student</div>
+        <div class="batch-feedback-box">${escapeHtml(initialFeedback || "Geen feedback ontvangen.")}</div>
+
+        <div class="batch-edit-grid">
+          <div>
+            <label>Definitieve score</label>
+            <input type="number" min="0" max="${escapeHtml(result.max_score ?? 0)}" step="0.5" value="${escapeHtml(initialScore)}" data-final-score />
+          </div>
+          <div>
+            <label>Definitieve feedback</label>
+            <textarea data-final-feedback>${escapeHtml(initialFeedback)}</textarea>
+          </div>
+        </div>
+
+        <div class="batch-actions">
+          <button type="button" class="batch-action-btn btn-success" data-approve-btn>Akkoord</button>
+          <button type="button" class="batch-action-btn btn-secondary" data-edit-score-btn>Score aanpassen</button>
+          <button type="button" class="batch-action-btn btn-secondary" data-edit-feedback-btn>Feedback aanpassen</button>
+        </div>
+
+        <div class="batch-local-status" data-local-status>Nog niet goedgekeurd.</div>
+      `;
+
+      const approveBtn = card.querySelector("[data-approve-btn]");
+      const editScoreBtn = card.querySelector("[data-edit-score-btn]");
+      const editFeedbackBtn = card.querySelector("[data-edit-feedback-btn]");
+      const finalScoreInput = card.querySelector("[data-final-score]");
+      const finalFeedbackInput = card.querySelector("[data-final-feedback]");
+      const localStatus = card.querySelector("[data-local-status]");
+      const approvedPill = card.querySelector("[data-approved-pill]");
+
+      editScoreBtn.addEventListener("click", () => {
+        finalScoreInput.focus();
+        finalScoreInput.select();
+        localStatus.textContent = "Score aanpassen actief.";
+      });
+
+      editFeedbackBtn.addEventListener("click", () => {
+        finalFeedbackInput.focus();
+        localStatus.textContent = "Feedback aanpassen actief.";
+      });
+
+      approveBtn.addEventListener("click", async () => {
+        const maxScore = Number(result.max_score ?? 0);
+        const safeFinalScore = Math.max(0, Math.min(maxScore, Number(finalScoreInput.value) || 0));
+        finalScoreInput.value = safeFinalScore;
+
+        await saveReviewFromCard({
+          submissionId: resultItem.submissionId || "",
+          classId: batchMeta.classId || "",
+          assignmentId: batchMeta.assignmentId || "",
+          studentName: resultItem.studentName || "",
+          studentEmail: resultItem.studentEmail || "",
+          question: resultItem.question || "",
+          answer: resultItem.answer || "",
+          aiScore: Number(result.score ?? 0),
+          aiMaxScore: maxScore,
+          aiReason: result.reason || "",
+          aiFeedback: result.student_feedback || "",
+          aiConfidence: Number(result.confidence ?? 0),
+          finalScore: safeFinalScore,
+          finalFeedback: finalFeedbackInput.value.trim(),
+          localStatus,
+          approvedPill,
+          approveBtn
+        });
+      });
+
+      return card;
+    }
+
+    function renderBatchResults(data) {
+      const batchCards = document.getElementById("batchCards");
+      batchCards.innerHTML = "";
+
+      renderBatchSummary(data);
+
+      const items = Array.isArray(data.results) ? data.results : [];
+
+      if (!items.length) {
+        batchCards.innerHTML = `<div class="muted">Geen nagekeken inzendingen gevonden.</div>`;
+        return;
+      }
+
+      items.forEach((item, index) => {
+        batchCards.appendChild(createBatchCard(item, index, {
+          classId: data.classId || "",
+          assignmentId: data.assignmentId || ""
+        }));
+      });
+    }
+
+    async function startBatchGrading() {
+      const classId = document.getElementById("batchClassId").value.trim();
+      const assignmentId = document.getElementById("batchAssignmentId").value.trim();
+      const output = document.getElementById("batchOutput");
+      const status = document.getElementById("batchStatus");
+      const runButton = document.getElementById("batchRunButton");
+      const batchCards = document.getElementById("batchCards");
+      const batchSummary = document.getElementById("batchSummary");
+
+      if (!classId || !assignmentId) {
+        status.innerHTML = `<span class="error">Vul class ID en assignment ID in.</span>`;
+        return;
+      }
+
+      runButton.disabled = true;
+      status.textContent = "Batch nakijken gestart...";
+      output.textContent = "Bezig...";
+      batchCards.innerHTML = "";
+      batchSummary.style.display = "none";
+      batchSummary.innerHTML = "";
+
+      try {
+        const data = await postDirectBatch({
+          classId,
+          assignmentId
+        });
+
+        output.textContent = JSON.stringify(data, null, 2);
+        renderBatchResults(data);
+        status.innerHTML = `<span class="ok">Batch nakijkrun klaar.</span>`;
+      } catch (error) {
+        output.textContent = `Fout: ${error.message}`;
+        batchCards.innerHTML = "";
+        batchSummary.style.display = "none";
+        status.innerHTML = `<span class="error">Batch nakijken mislukt.</span>`;
+      } finally {
+        runButton.disabled = false;
       }
     }
   </script>
